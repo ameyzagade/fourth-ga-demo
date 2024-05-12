@@ -1,7 +1,46 @@
-# name: Lint, Test, Deploy #2
-# on: ["push", "workflow_dispatch"]
-# jobs:
-#   Lint:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Pull
+name: Lint, Test, Deploy #2
+on: ["push", "workflow_dispatch"]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull codebase
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node_version: latest
+      - name: Install NPM packages
+        run: npm ci
+      - name: Lint codebase
+        run: npm run lint
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Pull codebase
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node_version: latest
+      - name: Install NPM packages
+        run: npm ci
+      - name: Run test suite
+        run: npm test
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Pull codebase
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node_version: latest
+      - name: Install NPM packages
+        run: npm ci
+      - name: Build solution
+        run: npm run build
+      - name: Deploy solution
+        run: echo "Solution deployed"
