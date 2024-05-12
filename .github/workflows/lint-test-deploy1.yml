@@ -1,0 +1,22 @@
+name: Lint, Test, Deploy #1
+on: ["push", "workflow_dispatch"]
+jobs:
+  Deploy_Solution:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull codebase
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node_version: latest
+      - name: Install NPM packages
+        run: npm ci
+      - name: Lint codebase
+        run: npm run lint
+      - name: Run test suite
+        run: npm test
+      - name: Build solution
+        run: npm run build
+      - name: Deploy solution
+        run: echo "Solution deployed"

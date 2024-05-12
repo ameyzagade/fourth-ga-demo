@@ -1,0 +1,7 @@
+# name: Lint, Test, Deploy #2
+# on: ["push", "workflow_dispatch"]
+# jobs:
+#   Lint:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Pull
